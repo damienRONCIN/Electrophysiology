@@ -1,0 +1,78 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage[utf8]{inputenc}
+
+% Title Page
+\title{Experimental analysis and computer simulation (calcium ion) in the excitation-contraction coupling of skeletal muscle}
+\author{Damien Roncin}
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Presentation \\
+Introducing to the biophysical group of Antioquia's University :
+The University of Antioquia is one of the public universities of Medellin. This is the oldest institute of superior studies of Colombia, funding in 1803. In Colombia the university system is not the same than in France, every university offer formation for every inspection ( science, art, communication, etc...).
+The Electrophygiologie group
+I work in group create for a project about electrophysiologie, it is compose of the professor MARCO GIRALDO, Daniel Mejía Raigosa who's doing a theses, and student from different orisons (medicine, engendering, biology, physic)  . This group have a weekly meeting to present paper, or other part of the project.
+
+\end{abstract}
+
+Internship report
+1st march – 9th June
+At the Biophysical group of universidad de Antioquia Medellin\\
+\\
+
+\chapter{Understanding basic of skeletal muscle cell, and Electrophygiologie}
+\section{The excitation–contraction coupling (ECC) mechanism in skeletal muscle}
+Skeletal muscle fibre is compose by external membrane with a part call T-Tube system, witch is a part where interaction between intracellular and extracellular plasma that interest us happen. This part of the membrane interact by ionic calcium channels with the sarcoplasmic reticulum (SR). This ionic channels are composed by receptors DHPR protein on the external membrane), and RyR on the sarcoplasmic reticulum.The sarcoplasic reticulum is a part of the muscular cell separated of the rest of the cell by a membrane. When a depolarisation happen along the external membrane from the external plasma, there is exchange of calcium ions between t-tube and sarcoplasmic reticulum. From the reticulum sarcoplamic there is a release of $Ca^{2+}$ in the myofibril (the contractile part of the muscle fibre).The myofibril is composed of sarcomere, wish is the part who is contracted in contact of $Ca^{2+}$. After the contraction ions $Ca^{2+}$ leave from myofibril by SR$Ca^{2+}$ adenosine triphosphatase (SERCA)to the SR because of a mecanism where $Na^{+}$ are involved.  (Calderón, Bolaños,Caputo, 2014)\\
+
+\section{Basics laws of electrophygiologie:}
+
+
+In electrophisiogie we will focus on two factor of our systeme who are the local ionic concentracion and the electric field.
+There is some laws to know to understand the operating mechanisms of a muscle cell.\\
+In a given amount there is the same number of anions and cation that the space charge neutrality:
+$$
+	\sum_{i}Z_{i}^{c}e[C_{i}]=\sum_{j}Z_{j}^{a}e[C_{j}] \\
+$$
+
+Where Z is the valence of each ions, c is cation and a anion.\\
+Ionic movement is due to a electric field and difference of concentration of each variety of ions. Which is describe by the Nest-Planck equation (NPE), who describe the flux of a certain ion like a sum of diffusion flux and drift flux( because of electric field).\\
+$$
+	\ J=-\mu(Z[C]\frac{\partial{V}}{\partial{x}}+\frac{KT}{q}\frac{\partial{[C]}}{\partial{x}}) \\
+$$
+ Where J is the ionic flux ($ \frac{mol}{sec*cm^2} $),$\mu$ is the mobility ($ \frac{cm^2}{v*sec}$), Z is the valence,k is the Boltzmann constant ($ \frac{j}{k}$),T is the temperature (k), q is the charge (c).\\
+ This equation can be seen with the current density:\\
+ $$
+ \ I=J*ZF=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}}) \\
+ $$
+ Where I is the currant density($\frac{A}{cm^2}$),  $u=\frac{\mu}{N_{a}}$ , and F the Faraday constant ($\frac{c}{mol}$)\\
+ With this equation we obtain the Nerst equation witch give us the condition for the entire currant create by one type of ion across the membrane to be zero.\\
+ $$
+ \ I=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}})=0 \\
+ $$
+ $$
+ => \int_{in}^{out} \frac{\partial{V}}{\partial{x}}dx=- \frac{RT}{ZF} \int_{in}^{out} \frac{\partial{[C]}}{[C]\partial{x}}dx
+ $$
+ $$
+ \ V_{m}=V_{in}-V_{out}=E_{i}=-\frac{RT}{ZF}ln(\frac{[C]_{out}}{[C]_{in}}) \\
+ $$
+ Out signification is external part of the membrane, and in internal, $V_{in}$ is the potential in the cell. $E_{i}$ is the nerst potential for the i ion.
+ This equation is a explicit expression of the equilibrate potential for each ion across the membrane ( in concentration).\\
+ There is a model of the total equilibrate potential of the membrane where all the more influential ions are involved, the Goldman-Hodgkin-Katz model (GHK):
+ $$
+ \ V_{rest}= \frac{RT}{F}ln(\frac{P_{k}[K^{+}]_{out}+P_{Na}[Na^{+}]_{out}+P_{cl}[cl^{-}]_{in}}{P_{k}[K^{+}]_{in}+P_{Na}[Na^{+}]_{in}+P_{cl}[cl^{-}]_{out}})
+ $$
+ Here $P_{k}$ is the membrane permeability the potassium ion and likewise for others ions from experimental studies.As you can can see the calcium ion concentration is not involved because against the others concentration it's negligible for the total membrane potential.  
+ 
+ 
+\chapter{Simulation }
+  
+ \section{Simulation of a passive membrane:}
+ 
+ 
+
+A membrane can be seen like a RC circuit, with the resistance who is a total resistance of ionic channels, and the capacity who is the rest of the membrane. External and internal plasmas are conductor but the membrane is not, witch is the definition of a capacity. Our first model for a passive membrane simulation is a simple RC circuit, where the membrane capacity and the resistance datas are from experiment (membrane capacitie = 1$\mu$F). But the rest potential must be considered. 
+
+
+\end{document}          
