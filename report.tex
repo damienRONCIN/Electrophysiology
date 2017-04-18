@@ -1,35 +1,43 @@
 \documentclass[a4paper,10pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{caption} 
+\usepackage{hyperref} 
+\usepackage{appendix} 
+\usepackage[final]{pdfpages}
+
 
 % Title Page
-\title{Experimental analysis and computer simulation (calcium ion) in the excitation-contraction coupling of skeletal muscle}
+\title{Computer simulation (calcium ion) in the excitation-contraction coupling of skeletal muscle}
 \author{Damien Roncin}
 
 
+\renewcommand{\abstractname}{Presentation }
 \begin{document}
 \maketitle
 \begin{abstract}
-Presentation \\
-Introducing to the biophysical group of Antioquia's University :
-The University of Antioquia is one of the public universities of Medellin. This is the oldest institute of superior studies of Colombia, funding in 1803. In Colombia the university system is not the same than in France, every university offer formation for every inspection ( science, art, communication, etc...).
-The Electrophygiologie group
-I work in group create for a project about electrophysiologie, it is compose of the professor MARCO GIRALDO, Daniel Mejía Raigosa who's doing a theses, and student from different orisons (medicine, engendering, biology, physic)  . This group have a weekly meeting to present paper, or other part of the project.
 
-\end{abstract}
-
-Internship report
-1st march – 9th June
+Internship report1st march – 9th June
 At the Biophysical group of universidad de Antioquia Medellin\\
 \\
+Introducing to the biophysical group of Antioquia's University :
+The University of Antioquia is one of the public universities of Medellin. This is the oldest institute of superior studies of Colombia, funding in 1803. In Colombia the university system is not the same than in France, every university offer formation for every inspection ( science, art, communication, etc...).
+I work in group create for a project about electrophysiology, it is compose of the professor MARCO GIRALDO, Daniel Mejía Raigosa who's doing a these, and students from different orisons (medicine, engendering, biology, physic)  . This group have a weekly meeting to present paper, or other part of the project.
 
-\chapter{Understanding basic of skeletal muscle cell, and Electrophygiologie}
+\end{abstract}
+\tableofcontents
+
+
+
+
+\chapter{Understanding basic of skeletal muscle cell, and Electrophygiology}
 \section{The excitation–contraction coupling (ECC) mechanism in skeletal muscle}
-Skeletal muscle fibre is compose by external membrane with a part call T-Tube system, witch is a part where interaction between intracellular and extracellular plasma that interest us happen. This part of the membrane interact by ionic calcium channels with the sarcoplasmic reticulum (SR). This ionic channels are composed by receptors DHPR protein on the external membrane), and RyR on the sarcoplasmic reticulum.The sarcoplasic reticulum is a part of the muscular cell separated of the rest of the cell by a membrane. When a depolarisation happen along the external membrane from the external plasma, there is exchange of calcium ions between t-tube and sarcoplasmic reticulum. From the reticulum sarcoplamic there is a release of $Ca^{2+}$ in the myofibril (the contractile part of the muscle fibre).The myofibril is composed of sarcomere, wish is the part who is contracted in contact of $Ca^{2+}$. After the contraction ions $Ca^{2+}$ leave from myofibril by SR$Ca^{2+}$ adenosine triphosphatase (SERCA)to the SR because of a mecanism where $Na^{+}$ are involved.  (Calderón, Bolaños,Caputo, 2014)\\
+Skeletal muscle fibre is compose by external membrane with a part call T-Tube system, witch is the part where interaction between intracellular and extracellular plasmas that interest us happen. This part of the membrane interact by ionic calcium channels with the sarcoplasmic reticulum (SR). This ionic channels are composed by receptors DHPR protein on the external membrane), and RyR on the sarcoplasmic reticulum.The sarcoplasic reticulum is a part of the muscular cell separated of the rest of the cell by a membrane. When a depolarisation happen along the external membrane , there is exchange of calcium ions between t-tube and sarcoplasmic reticulum. From the reticulum sarcoplamic there is a release of $Ca^{2+}$ in the myofibril (the contractile part of the muscle fibre).The myofibril is composed of sarcomere, wish is the part who is contracted in contact of $Ca^{2+}$. After the contraction ions $Ca^{2+}$ leave from myofibril by SR$Ca^{2+}$ adenosine triphosphatase (SERCA)to the SR because of a mechanism where $Na^{+}$ are involved.  (Calderón, Bolaños,Caputo, 2014)\\
 
-\section{Basics laws of electrophygiologie:}
+\section{Basics laws of electrophygiology:}
 
 
-In electrophisiogie we will focus on two factor of our systeme who are the local ionic concentracion and the electric field.
+In electrophisiogy we will focus on two factor of our system who are the local ionic concentration and the electric field.
 There is some laws to know to understand the operating mechanisms of a muscle cell.\\
 In a given amount there is the same number of anions and cation that the space charge neutrality:
 $$
@@ -51,28 +59,165 @@ $$
  $$
  \ I=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}})=0 \\
  $$
+ \\
  $$
  => \int_{in}^{out} \frac{\partial{V}}{\partial{x}}dx=- \frac{RT}{ZF} \int_{in}^{out} \frac{\partial{[C]}}{[C]\partial{x}}dx
  $$
+ \\
  $$
  \ V_{m}=V_{in}-V_{out}=E_{i}=-\frac{RT}{ZF}ln(\frac{[C]_{out}}{[C]_{in}}) \\
  $$
- Out signification is external part of the membrane, and in internal, $V_{in}$ is the potential in the cell. $E_{i}$ is the nerst potential for the i ion.
+ Out signification is external part of the membrane, and in is internal, $V_{in}$ is the potential in the cell. $E_{i}$ is the Nerst potential for the i ion.
  This equation is a explicit expression of the equilibrate potential for each ion across the membrane ( in concentration).\\
  There is a model of the total equilibrate potential of the membrane where all the more influential ions are involved, the Goldman-Hodgkin-Katz model (GHK):
  $$
  \ V_{rest}= \frac{RT}{F}ln(\frac{P_{k}[K^{+}]_{out}+P_{Na}[Na^{+}]_{out}+P_{cl}[cl^{-}]_{in}}{P_{k}[K^{+}]_{in}+P_{Na}[Na^{+}]_{in}+P_{cl}[cl^{-}]_{out}})
  $$
- Here $P_{k}$ is the membrane permeability the potassium ion and likewise for others ions from experimental studies.As you can can see the calcium ion concentration is not involved because against the others concentration it's negligible for the total membrane potential.  
+ Here $P_{k}$ is the membrane permeability for the potassium ion and likewise for others ions with data from experimental studies.As you can see the calcium ion concentration is not involved because against the others concentration it's negligible for the total membrane potential. \\
+ (Foundations of Cellular Neurophysiology Daniel Johnston, Samuel Miao-Sin Wu ) 
  
+ \subsection{Python Computing of this laws}
+ All this section is more comprehensible with the annexe 'jupyter notebook'.\\
  
-\chapter{Simulation }
+ First we create a data base with all experimental data needed in our model, like concentration of every ions, valence , permeability of the membrane. The data base is a Comma-separated values (csv) file. To use it, a list of  dictionaries is created. Where every ion have his own dictionary. This structured data is use to calculate the rest potential, create a vector with all ion's Nerst Potential.   
+\chapter{ Membrane }
   
- \section{Simulation of a passive membrane:}
+ 
+ \section{ Passive membrane:}
+ \subsection{theoretical model of a passive membrane}
  
  
 
-A membrane can be seen like a RC circuit, with the resistance who is a total resistance of ionic channels, and the capacity who is the rest of the membrane. External and internal plasmas are conductor but the membrane is not, witch is the definition of a capacity. Our first model for a passive membrane simulation is a simple RC circuit, where the membrane capacity and the resistance datas are from experiment (membrane capacitie = 1$\mu$F). But the rest potential must be considered. 
+A passive membrane can be seen like a RC circuit, with the resistance ($R_{m}$) who is a total resistance of ionic channels, and $C_{m}$ the capacity of the membrane. External and internal plasmas are conductor but the membrane is not, witch is the definition of a capacity. Our first model for a passive membrane simulation is a simple RC. Where the membrane capacity and the resistance data are from experiment (membrane capacity = 1$\mu$F). But the rest potential must be considered too.
+\begin{center}
+\includegraphics[scale=0.18]{membraneRCnerst.png} 
+\captionof{figure}{Analogy of a passive membrane}
+\label{fig1}
+\end{center}
+Wish the Ohm's and Kirchhoff's law, the equivalent circuit is split in one ion currant and a capacity membrane currant. There is a time dependence:\\  
+$$
+\ I_{stim}=I_{Cm}+I_{ion}=C_{m} \frac{dV_{m}}{dt}+ \frac{(V_{m}-E_{rest})}{R_{m}} \\
+$$
+This equation is valid for membrane current of each ions , but instead of potential of GHK model you have the Nerst one. The analytical result of this equation is:\\
+$$
+ V_{passive}=
+\left\{
+\begin{array}{l c} 
+(E_{rest}-V_{\infty})e^{(-t/RC)}+V_{\infty} & 0 < t < T \\
+(V_{0}-E_{rest})e^{(-t-T)/RC}+E_{rest} & T < t 
+\end{array}
+\right.
+$$
+Where $V_{\infty}=I_{stim}R_{m}$, T is the time stimulation,$V_{0} =V_{passive}(T)$.\\
+
+\subsection{Simulation of a passive membrane}
+the passive membrane model have a analytical resolution, with value of rest potential we obtain:
+\begin{center}
+\includegraphics[scale=0.5]{passivemembranemodel.png} 
+\captionof{figure}{passive membrane potential for a stimulation of $1.4*10^{-2}$ A}
+\label{fig1}
+\end{center}
+
+
+\section{Active Membrane}  
+If the membrane potential ($V_{m}$)	 is stronger than a threshold, the membrane behaviour is not linear that the main difference with what we have seen for passive membrane. Now we consider that the stimulation causes a bigger $V_{m}$ than the threshold. 
+\subsection{Hodgkin Huxley model of a active membrane}
+The resistance of the circuit who where a equivalent resistance of all ion channels resistance, is now split in a potassium, a sodium and a leak ion channels potential. This the Hodgkin Huxley model of a Active membrane.
+Every ion channel have his proper Nerst potential instead a global rest potential. What we can see in the Fig 2.3. The most influential ion channels in a membrane are the potassium and sodium one's, the leak resistance is the influence of the other ion channels on $V_{m}$.
+\begin{center}
+\includegraphics[scale=0.18]{activemenbrane.png} 
+\captionof{figure}{Active membrane equivalent circuit in the HH model}
+\label{fig1}
+\end{center}
+$$
+\ I_{stim} = I_{Cm}+I_{Ions}=I_{Cm}+I_{Na}+I_{K}+I_{leak} \\
+$$
+The bigger difference between a active and a passive membrane is that the ions resistance are no longer linear. The potassium and sodium resistance will depend of $V_{m}$.\\
+The leakage currant is linear :$I_{L}= g_{l}(V_{m}-E_{l})$\\
+Where $g_{l}$ is the leak conductance, and $E_{l}$ is the equivalent of the Nerst potential for the leakage.\\
+The other ionic currant have a conductance who depend of $V_{m}$, The non linear currant have the following form: $I_{nl}=g_{nl}(V_{m})(V_{m}-E_{nl})$\\
+The non-linear conductance is a average of all ionic channel by area. A Ionic channel is a protein constitute by gates,witch determine if ions can past across the membrane or not. Every gates of this protein have his proper function who determine if the ionic channel is open or not. The Hodgkin Huxley experiment had shown that every gate of a ionic channel can be describe by functions who depend of $V_{m}$. This function is the probability for the gate to be open. Every non linear channel have four gates, the ionic channel is considered open if all gate are open. If all gate are open then the conductance of the ionic channel is the higher possible, conductance maximum is $g_{K}$ for the potassium and  $g_{Na}$ for the sodium. 
+ \paragraph{Potassium channel}
+ For this channel all gate functions are the same that the n gates.
+ $$
+ \ I_{K}=g_{K}(n^4)(V_{m})[V_{m}-E_{K}] \\
+ $$
+ n gate is related to $V_{m}$ by $\alpha_{n}$ and $\beta_{n}$ by the following equation differential. This function are from HH experience on a squid axon, this is a neuron but we consider that the neurone and muscle membrane cell have the same properties. 
+ $$
+ \frac{dn}{dt} = \alpha_{n}(1-n)- \beta_{n} \\
+ $$
+ $$
+ \begin{array}{l c} 
+ \ \beta_{n}= 0.125e^{(-(V_{m}-V{rest})/80} , & \alpha_{n}=0.01 \frac{10-(V_{m}-V{rest})}{e^{(1-0.1(V_{m}-V{rest})))}-1} \\
+\end{array}
+ $$
+
+\paragraph{Sodium channel}
+This channel have three gate function m, and one h, who have the same structure than the n one.
+$$
+\frac{dm}{dt} = \alpha_{m}(1-m)- \beta_{m}
+$$
+$$
+ \begin{array}{l c} 
+ \beta_{m}= 4e^{(-V_{m}/18)} & \alpha_{m}= \frac{2.5-0.1(V_{m}-V{rest})}{e^{2.5-0.1(V_{m}-V{rest})}-1} \\
+ \end{array}
+ $$
+ $$
+ \frac{dh}{dt} = \alpha_{h}(1-h)- \beta_{h}
+ $$
+ $$
+ \begin{array}{l c}
+ \beta_{h}= \frac{1}{e^{(30-(V_{m}-V{rest})))/10}+1} & \alpha_{h}=0.07 e^{(V_{m}-V{rest})/20} \\
+ \end{array}
+$$ 
+ 
+\paragraph{Finally we obtain the global currant}
+$$
+\ I_{stim} = C_{m}(\frac{V_{m}}{dt})+g_{Na}(m^3)h[V_{m}-E_{Na}]+g_{K}(n^4)[V_{m}-E_{K}]+g_{leak}[V_{m}-E_{leak}] \\
+$$
+As we can see it's not a differential equation that we can solve analytically, so we used a numericals resolution.\\
+('Quantitative Neurophysiology',Tranquillo, Joseph V.)
+\subsection{Simulation of a Active membrane}
+For the simulation of the HH model we need to use a program who can solve differential equation numerically. The one who is use here is based on the Euler method to solve differential equations.That consist on take a period of time (dt) and with the initials conditions calculate the others point of our function(y).Who have the following form: \\
+$$
+\begin{array}{l c} 
+\frac{dy}{dt}=f(t,y) & y_{0}=y(t_{0})\\
+y_{1}=y_{0}+f(t_{0},y_{0})dt & y_{n}=y_{n-1}+f(t_{n-1},y_{n-1})dt \\
+\end{array}
+$$
+Where n is a whole number who can be every "point time", witch mean that there is $n \leq N$\ ,$N=\frac{T}{dt}$ \\
+ T is the global period where the function is calculate.  \\
+
+In python we use the 'odeint' function witch call the function we have to resolve, initials conditions, 'time list' (number of point for a defined time), and object called by the function we have to resolve). 
+In our case the function is:
+$$
+\ \frac{V_{m}}{dt} = \frac{1}{C_{m}}(-I_{stim}+g_{Na}(m^3)h[V_{m}-E_{Na}]+g_{K}(n^4)[V_{m}-E_{K}]+g_{leak}[V_{m}-E_{leak}]) \\
+$$
+But this function call other one wish are the gates functions (n, m and h). We have many form of the resolving code for the HH model (see one in appendix jupyter notebook).
+We obtain the following results :
+
+\begin{center}
+\includegraphics[scale=0.25]{voltagectivemenbrane.png} 
+\captionof{figure}{Active membrane potential }
+\label{fig1}
+\includegraphics[scale=0.25]{gatefunctions.png} 
+\captionof{figure}{ gate function for active membrane potential }
+\label{fig1}
+\end{center}
+
+\chapter{ FDTD CA2+ }
+
+
+
+
+  
+
+\appendix
+\chapter{Jupyter notebook for membrane simulation}
+All programming I have done is also on Github, at: \\
+https://github.com/damienRONCIN\\
+
+\includepdf[pages=1-7]{jupyternotebook1.pdf}
 
 
 \end{document}          
