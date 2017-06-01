@@ -1,78 +1,517 @@
-\documentclass[a4paper,10pt]{report}
+\documentclass[a4paper,11pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{caption} 
+\usepackage{hyperref} 
+\usepackage{appendix} 
+\usepackage[final]{pdfpages}
+%\usepackage[english,frenchb.ldf]{babel}
+\usepackage[top=1.9cm,bottom=1.9cm,right=1.9cm,left=1.9cm]{geometry}
+\usepackage{natbib}
+\usepackage[version=3]{mhchem}
+\linespread{0.96}
 
-% Title Page
-\title{Experimental analysis and computer simulation (calcium ion) in the excitation-contraction coupling of skeletal muscle}
-\author{Damien Roncin}
+ 
 
 
 \begin{document}
-\maketitle
-\begin{abstract}
-Presentation \\
-Introducing to the biophysical group of Antioquia's University :
-The University of Antioquia is one of the public universities of Medellin. This is the oldest institute of superior studies of Colombia, funding in 1803. In Colombia the university system is not the same than in France, every university offer formation for every inspection ( science, art, communication, etc...).
-The Electrophygiologie group
-I work in group create for a project about electrophysiologie, it is compose of the professor MARCO GIRALDO, Daniel Mejía Raigosa who's doing a theses, and student from different orisons (medicine, engendering, biology, physic)  . This group have a weekly meeting to present paper, or other part of the project.
+\renewcommand\contentsname{Table of Contents}
+\renewcommand\bibname{References }
+\renewcommand*\chaptername{Part}
+\renewcommand\appendixname{Appendix}
+%Page titre
+\begin{titlepage}
+\center
 
-\end{abstract}
+\vspace{2cm}
 
-Internship report
-1st march – 9th June
-At the Biophysical group of universidad de Antioquia Medellin\\
+\textsc{\LARGE Université Paul Sabatier}\\[1cm] 
+\textsc{\Large Internship report}\\
+\textsc{\Large L3 Parcours Spéciaux - Physique}\\[2cm] 
+
+
+{\LARGE \bfseries Computer simulation (calcium ion) in the excitation-contraction coupling of skeletal muscle} \\[0.2cm] 
+\vspace{1.5cm}
+ 
+\large By: \\*
+\vspace{0.1cm}
+Damien Roncin \\* 
+\vspace{0.1cm}
+Internship completed in Universidad de Antioquia \\* 
+\vspace{0.1cm}
+From 1 March To 8 June 2017 \\* 
+\vspace{0.1cm}
+Medellin, \today \\*
+\vspace{0.1cm}
+Supervised by Pr.Marco Giraldo \\[5.5cm] 
+\vspace{4cm}
+%\includegraphics[width=20cm]{logo.png}
+\begin{tabular}{l c r}
+   \includegraphics[width=3cm]{Logo_udea_.jpg} &  \includegraphics[width=3cm]{rien.png} &
+   \includegraphics[width=6cm]{logo_ups_pres.png} 
+\end{tabular}
+\end{titlepage}
+
+\newpage
+
+\section*{Acknowledgments}
+\thispagestyle{empty}
+\setcounter{page}{0}
+
+I would like to thank Prof.Marco Giraldo for welcoming me in his laboratory and being here every time I needed help. Thanks to all students who helped me during the internship: Daniel Mejía, the whole reading group, and physics students of the physics working room.
+
+
+\section*{Presentation}
+Introducing the group of biophysics of University of Antioquia: \\
+The University of Antioquia is one of the thirty-two public universities in Colombia. It is the oldest institute of Superior studies of Colombia, founded in 1803. In Colombia the university system is not the same as in France, every university offers courses for every career (science, art, communication, etc...).
+I work in a research line created for a project about electrophysiology, it is composed by professor Marco Giraldo, Daniel Mejía Raigosa who's doing a thesis, and students from different backgrounds (medicine, engineering, biology, physics). This group has a weekly meeting to present articles, or part of the project. \\
+My project is to simulate the diffusion of calcium ions into a mammal skeletal muscle cell. The project is performed with the Medical institute of University of Antioquia. The experimental part should have been done in this institute but unfortunately that was not possible. Consequently the whole project was done with data from articles and each one has its own experimental environment. Access to consistent baseline of data is difficult to find without making experiments on our own. \\ 
 \\
+In this report we will first discuss of eletrophysiology's basics law and the structure of a skeletal muscle cell, which have been the start of the internship. After what we will study and simulate the behaviour of a membrane. The project has a big programming part, the report will also focus on technical issue of the simulation. To finish with the diffusion simulation of some examples and the calcium one.
 
-\chapter{Understanding basic of skeletal muscle cell, and Electrophygiologie}
+\tableofcontents
+
+
+
+
+\chapter{Understanding the skeletal muscle cell, and basic electrophysiology laws}
 \section{The excitation–contraction coupling (ECC) mechanism in skeletal muscle}
-Skeletal muscle fibre is compose by external membrane with a part call T-Tube system, witch is a part where interaction between intracellular and extracellular plasma that interest us happen. This part of the membrane interact by ionic calcium channels with the sarcoplasmic reticulum (SR). This ionic channels are composed by receptors DHPR protein on the external membrane), and RyR on the sarcoplasmic reticulum.The sarcoplasic reticulum is a part of the muscular cell separated of the rest of the cell by a membrane. When a depolarisation happen along the external membrane from the external plasma, there is exchange of calcium ions between t-tube and sarcoplasmic reticulum. From the reticulum sarcoplamic there is a release of $Ca^{2+}$ in the myofibril (the contractile part of the muscle fibre).The myofibril is composed of sarcomere, wish is the part who is contracted in contact of $Ca^{2+}$. After the contraction ions $Ca^{2+}$ leave from myofibril by SR$Ca^{2+}$ adenosine triphosphatase (SERCA)to the SR because of a mecanism where $Na^{+}$ are involved.  (Calderón, Bolaños,Caputo, 2014)\\
-
-\section{Basics laws of electrophygiologie:}
+Skeletal muscle fibre is composed by an external membrane with a part called Transverse-Tubule (T-Tube system), which is the part where interaction between intracellular and extracellular plasmas that interest us happens. This part of the membrane interacts by ionic calcium channels with the sarcoplasmic reticulum (SR). These ionic channels are composed by receptors DHPR protein on the external membrane, and RyR on the sarcoplasmic reticulum.The sarcoplasmic reticulum is a part of the muscular cell separated with the rest of the cell by a membrane. When a depolarisation happens along the external membrane, there is exchange of calcium ions between the T-tube system and sarcoplasmic reticulum. From the sarcoplasmic reticulum there is a release of $Ca^{2+}$ in the myofibril (the contractile part of the muscle fibre with is myofilaments) where $Ca^{2+}$ interacts with other chemical species (see the diagram). The myofibril is composed by the sarcomere part of the myofilament), which is the part which is contracted in contact with $Ca^{2+}$. After the contraction, $Ca^{2+}$ ions leave from myofibril by SR$Ca^{2+}$ adenosine triphosphatase (SERCA) to the SR because of a mechanism where $Na^{+}$ ions are involved.   \cite{Calderon2014} \\
 
 
-In electrophisiogie we will focus on two factor of our systeme who are the local ionic concentracion and the electric field.
-There is some laws to know to understand the operating mechanisms of a muscle cell.\\
-In a given amount there is the same number of anions and cation that the space charge neutrality:
-$$
-	\sum_{i}Z_{i}^{c}e[C_{i}]=\sum_{j}Z_{j}^{a}e[C_{j}] \\
-$$
+\begin{minipage}{0.55\linewidth}
+\includegraphics[scale=0.22]{celldiagram.png} 
+\captionof{figure}{skeletal muscle cell diagram}
+\label{fig1}
+\end{minipage}\hfill
+\begin{minipage}{0.4\linewidth}
+In the diagram the free $Ca^{2+}$ interacts with troponin, ATP, parvalbumin, and the SR $Ca^{2+}$  pump.  \cite{Baylor2011} 
+\end{minipage}
 
-Where Z is the valence of each ions, c is cation and a anion.\\
-Ionic movement is due to a electric field and difference of concentration of each variety of ions. Which is describe by the Nest-Planck equation (NPE), who describe the flux of a certain ion like a sum of diffusion flux and drift flux( because of electric field).\\
+
+
+
+\section{Basics laws of electrophysiology}
+
+
+In electrophysiology we will focus on two factors of our system which are the local ionic concentration and the electric field.
+There are some laws to understand the operating mechanisms of a muscle cell.\\
+Ionic movement is due to an electric field and difference of concentration of each variety of ions. Which is described by the Nernst-Planck equation (NPE), which describes the flux of a certain ion like a sum of diffusion flux and drift flux (because of electric field).\\
 $$
 	\ J=-\mu(Z[C]\frac{\partial{V}}{\partial{x}}+\frac{KT}{q}\frac{\partial{[C]}}{\partial{x}}) \\
 $$
- Where J is the ionic flux ($ \frac{mol}{sec*cm^2} $),$\mu$ is the mobility ($ \frac{cm^2}{v*sec}$), Z is the valence,k is the Boltzmann constant ($ \frac{j}{k}$),T is the temperature (k), q is the charge (c).\\
- This equation can be seen with the current density:\\
+ Where J is the ionic flux ($ \frac{mol}{sec*cm^2} $),  $\mu$ is the mobility ($ \frac{cm^2}{V*sec}$), Z is the valence,[C] the concentration, K is the Boltzmann constant ($ \frac{joule}{kelvin}$), T is the temperature (Kelvin), q is the charge (c).\\
+ This equation can be seen as a current density:\\
  $$
  \ I=J*ZF=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}}) \\
  $$
- Where I is the currant density($\frac{A}{cm^2}$),  $u=\frac{\mu}{N_{a}}$ , and F the Faraday constant ($\frac{c}{mol}$)\\
- With this equation we obtain the Nerst equation witch give us the condition for the entire currant create by one type of ion across the membrane to be zero.\\
+ Where I is the current density($\frac{A}{cm^2}$),  $u=\frac{\mu}{N_{a}}$ and F the Faraday constant ($\frac{c}{mol}$).\\
+ With this equation we obtain the Nernst equation which gives us the condition that the total current created by one type of ion across the membrane has to be zero.\\
  $$
- \ I=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}})=0 \\
- $$
- $$
- => \int_{in}^{out} \frac{\partial{V}}{\partial{x}}dx=- \frac{RT}{ZF} \int_{in}^{out} \frac{\partial{[C]}}{[C]\partial{x}}dx
+ \begin{array}{l r}
+ \ I=-(uZ^2F[C]\frac{\partial{V}}{\partial{x}}+uZRT\frac{\partial{[C]}}{\partial{x}})=0 \,   & => \int_{in}^{out} \frac{\partial{V}}{\partial{x}}dx=- \frac{RT}{ZF} \int_{in}^{out} \frac{\partial{[C]}}{[C]\partial{x}}dx
+ \end{array} \\
+ \\
  $$
  $$
  \ V_{m}=V_{in}-V_{out}=E_{i}=-\frac{RT}{ZF}ln(\frac{[C]_{out}}{[C]_{in}}) \\
  $$
- Out signification is external part of the membrane, and in internal, $V_{in}$ is the potential in the cell. $E_{i}$ is the nerst potential for the i ion.
- This equation is a explicit expression of the equilibrate potential for each ion across the membrane ( in concentration).\\
- There is a model of the total equilibrate potential of the membrane where all the more influential ions are involved, the Goldman-Hodgkin-Katz model (GHK):
- $$
- \ V_{rest}= \frac{RT}{F}ln(\frac{P_{k}[K^{+}]_{out}+P_{Na}[Na^{+}]_{out}+P_{cl}[cl^{-}]_{in}}{P_{k}[K^{+}]_{in}+P_{Na}[Na^{+}]_{in}+P_{cl}[cl^{-}]_{out}})
- $$
- Here $P_{k}$ is the membrane permeability the potassium ion and likewise for others ions from experimental studies.As you can can see the calcium ion concentration is not involved because against the others concentration it's negligible for the total membrane potential.  
+ 'Out' refers to the external part of the membrane, and 'in' the internal one; $V_{in}$ is the potential in the cell. $E_{i}$ is the Nerst potential for the i ion.
+ This equation is an explicit expression of the equilibrium potential for each ion across the membrane (in concentration).\\
+ There is a model of the total equilibrium potential of the membrane where all of the most influential ions are involved, the Goldman-Hodgkin-Katz model (GHK):
+$$
+\ V_{rest}= \frac{RT}{F}ln(\frac{P_{k}[K^{+}]_{out}+P_{Na}[Na^{+}]_{out}+P_{cl}[cl^{-}]_{in}}{P_{k}[K^{+}]_{in}+P_{Na}[Na^{+}]_{in}+P_{cl}[cl^{-}]_{out}})
+$$
+ Here $P_{k}, \; P_{Na}, \; P_{cl}$ are the membrane permeability for the Potassium, Sodium and Chlorine ions pulled from the experimental data. As it can be seen the calcium ion concentration is not involved because it's negligible in comparison with the others concentration for the total membrane potential. \cite{Johnston1994}
  
- 
-\chapter{Simulation }
+ \subsection{Python computing of these laws}
+ All codes are in the appendix 'Python notebook'.\\ 
+ First we create a data base with every experimental data needed in our model, like concentration of every ions, valence, permeability of the membrane. The data base is a comma-separated values (csv) file. This file is just data separated by a symbol, in my case it's just a space. 
+  To use it, a list of  dictionaries is created. A dictionary in the python language is a collection of unordered values accessed by key rather than by index. Where every ion has his own dictionary.For example in the Fig1.2 "Valence" is a key and 2 is the value associated for the calcium dictionary. This structured data is used to calculate the rest potential (GHK model), create a vector with all Nerst Potential's ions. That can be used in the next part to simulate the membrane. 
+\begin{center}
+\includegraphics[width=7cm]{ioncsv.png} \hfill
+\includegraphics[width=17cm]{listdico.png}
+\captionof{figure}{From the csv file (up) we obtain the dictionaries (down)}
+\end{center}
+\chapter{ Membrane }
   
- \section{Simulation of a passive membrane:}
+ 
+ \section{Passive membrane}
+ \subsection{Theoretical model of a passive membrane}
  
  
 
-A membrane can be seen like a RC circuit, with the resistance who is a total resistance of ionic channels, and the capacity who is the rest of the membrane. External and internal plasmas are conductor but the membrane is not, witch is the definition of a capacity. Our first model for a passive membrane simulation is a simple RC circuit, where the membrane capacity and the resistance datas are from experiment (membrane capacitie = 1$\mu$F). But the rest potential must be considered. 
+A passive membrane can be seen as an RC circuit, with the resistance ($R_{m}$) which is a total resistance of ionic channels, and $C_{m}$ the capacity of the membrane. External and internal plasmas are conductors but the membrane is not, which is the definition of a capacitor. Our first model for a passive membrane simulation is a simple RC circuit. Where the membrane capacitance and the resistance data are from experiment (membrane capacitance = 1$\mu$F). But the rest potential($E_{rest}$) must be considered too.
+\begin{center}
+\includegraphics[scale=0.23]{membraneRCnerst.png} 
+\captionof{figure}{Analogy of a passive membrane}
+\label{fig1}
+\end{center}
+With Ohm's and Kirchhoff's laws, the circuit equation is composed by one ion current and a membrane capacity current. There is a time dependence:\\  
+$$
+\ I_{stim}=I_{Cm}+I_{ion}=C_{m} \frac{dV_{m}}{dt}+ \frac{(V_{m}-E_{rest})}{R_{m}} \\
+$$
+This equation is valid for the membrane current of each ion, but instead of the total rest potential of GHK model it has the Nerst one. The analytical result of this equation is:\\
+$$
+ V_{passive}=
+\left\{
+\begin{array}{l c} 
+(E_{rest}-V_{\infty})e^{(-t/RC)}+V_{\infty} & 0 < t < T \\
+(V_{0}-E_{rest})e^{(-t-T)/RC}+E_{rest} & T < t 
+\end{array}
+\right.
+$$
+Where $V_{\infty}=I_{stim}R_{m}$, T is the time stimulation and $V_{0} =V_{passive}(T)$.  \cite{Tranquillo2009} \\
 
+\subsection{Simulation of a passive membrane}
+
+
+\begin{minipage}{0.5\linewidth}
+\includegraphics[scale=0.45]{passivemembranemodel.png} 
+\captionof{figure}{passive membrane potential}
+\label{fig1}
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+The passive membrane model has an analytical solution, this solution just has to be computed with a value of rest potential (GHK model) and a stimulation current (here $Istim=1.4*10^{-2}$ A). The time stimulation  choice (t=0.02s) for this simulation is enough to completely charge the membrane. Once the stimulation is over the membrane discharges to the rest potential value (computed in the part 1.2). 
+\end{minipage}
+
+
+\section{Active membrane}  
+If the membrane potential ($V_{m}$)	 is higher than a threshold, the membrane behaviour is no longer linear, which is the main difference with the passive membrane model. Now we consider that the stimulation causes a bigger $V_{m}$ than the threshold. 
+\subsection{Hodgkin-Huxley model of an active membrane}
+The resistance of all ion channels of the passive membrane model is now splitted in a potassium, a sodium and a leak ion channels resistance. This is the Hodgkin Huxley model for an active membrane.
+Every ion channel has his own Nernst potential instead of a global rest potential, as we can see in Fig 2.3. The most influential ion channels in a membrane are the potassium and sodium ones, the leak resistance is the influence of the other ion channels on $V_{m}$.
+
+
+\begin{minipage}{0.55\linewidth}
+\includegraphics[width=9cm]{activemenbrane.png} 
+\captionof{figure}{Active membrane equivalent circuit in the HH model}
+\label{fig1}
+\end{minipage}\hfill
+\begin{minipage}{0.4\linewidth}
+With $I_{stim}$, $I_{Cm}$, $I_{Ions}$, $I_{Na}$, $I_{K}$ and $I_{leak}$ as the respective currents for the stimulation, membrane capacity, the entire ion channels, sodium channel,  potassium
+channel and the leak. These currents are ruled by: 
+$$
+\ I_{stim} = I_{Cm}+I_{Ions}=I_{Cm}+I_{Na}+I_{K}+I_{leak} 
+$$
+\end{minipage} 
+ 
+The biggest difference between an active and a passive membrane is that the ions resistance are no longer linear. The potassium and sodium resistance will depend on $V_{m}$.\\
+The leakage current is linear : $I_{L}= g_{l}(V_{m}-E_{l})$\\
+Where $g_{l}$ is the leak conductance, and $E_{l}$ is the equivalent of the Nernst potential for the leakage current.\\
+The other ionic current has a conductance which depends of $V_{m}$, The non-linear current has the following form: $I_{nl}=g_{nl}(V_{m})(V_{m}-E_{nl})$\\
+The non-linear conductance is an average of all ionic channels by area. As Ionic channel is a protein constituted by gates, which determines if ions can cross the membrane or not. Every gate of this protein has has its own purpose that determines if the ionic channel is open or not. The Hodgkin Huxley experiments had shown that every gate of an ionic channel can be described by functions that depend of $V_{m}$. This function is the probability for the gate to be open. Every non-linear channel has four gates, the ionic channel is considered open if all gates are open. When all gates are open then the conductance of the ionic channel is the highest possible, conductance maximum is $g_{K}$ for the potassium and  $g_{Na}$ for the sodium. 
+ \paragraph{Potassium channel}
+ For this channel all gate functions are the same as for the n gates.
+ $$
+ \ I_{K}=g_{K}(n^4)[V_{m}-E_{K}] \\
+ $$
+ n gate function is related to $V_{m}$ by $\alpha_{n}$ and $\beta_{n}$ by the following differential equation. These functions are from HH experience on a squid axon, which is a neuron but we consider that the neurone and muscle membrane cell have the same properties. A gate function is a probability so its value is between 0 and 1.  
+ $$
+ \begin{array}{l c r} 
+ \frac{dn}{dt} = \alpha_{n}(1-n)- \beta_{n} , &  \beta_{n}= 0.125e^{(-(V_{m}-V{rest})/80} , & \alpha_{n}=0.01 \frac{10-(V_{m}-V{rest})}{e^{(1-0.1(V_{m}-V{rest})))}-1} \\
+\end{array}
+ $$
+
+\paragraph{Sodium channel}
+This channel has three gates functions m and one h, who has the same structure as n.
+$$
+ \ I_{Na}=g_{K}(m^{3}h)[V_{m}-E_{K}] \\
+ $$
+$$
+\begin{array}{l c r}
+\frac{dm}{dt} = \alpha_{m}(1-m)- \beta_{m} , & \beta_{m}= 4e^{(-V_{m}/18)} , & \alpha_{m}= \frac{2.5-0.1(V_{m}-V{rest})}{e^{2.5-0.1(V_{m}-V{rest})}-1} \\
+\\
+\frac{dh}{dt} = \alpha_{h}(1-h)- \beta_{h} , & \beta_{h}= \frac{1}{e^{(30-(V_{m}-V{rest})))/10}+1} , & \alpha_{h}=0.07 e^{(V_{m}-V{rest})/20} \\
+\end{array}
+$$
+ 
+\paragraph{Finally we obtain the global current}
+$$
+\ I_{stim} = C_{m}(\frac{V_{m}}{dt})+g_{Na}(m^3)h[V_{m}-E_{Na}]+g_{K}(n^4)[V_{m}-E_{K}]+g_{leak}[V_{m}-E_{leak}] \\
+$$
+As we can see it's not a differential equation that we can't solve analytically, so we used a numerical solution.\\
+\cite{Hodgkin1952} \cite{Tranquillo2009}
+\subsection{Simulation of an active membrane}
+For the simulation of the HH model we need to use a program that can numerically solve differential equations. The one which is used here is based on the Euler method to solve differential equations. It consist on taking a time step (dt) and with the initial conditions we calculate the other points of our function (y). It has the following form: \\
+$$
+\begin{array}{l c} 
+\frac{dy}{dt}=f(t,y)\, , & y_{0}=y(t_{0})\\
+y_{1}=y_{0}+f(t_{0},y_{0})dt \, , & \; y_{n}=y_{n-1}+f(t_{n-1},y_{n-1})dt \\
+\end{array}
+$$
+Where n is an integer that can be every "point time", which means that there is $n \leq N$\ , $N=\frac{T}{dt}$. \\
+ T is the global period where the function is calculated. To obtain a good approximation of our function we need to have a small time step.  \\
+
+In python we use the 'odeint' function which calls the function we have to resolve, initial conditions, 'time list' (number of point for a defined time), and object called by the function we have to resolve. 
+In our case the function is:
+$$
+\ \frac{V_{m}}{dt} = \frac{1}{C_{m}}(-I_{stim}+g_{Na}(m^3)h[V_{m}-E_{Na}]+g_{K}(n^4)[V_{m}-E_{K}]+g_{leak}[V_{m}-E_{leak}]) \\
+$$
+But this function calls others which are the gates functions (n, m and h). We have many ways to come up with the code for the HH model, we can create a function for each gate or a function with just the structure of a gate function for example. Here a function with the structure of the gates function has been created and it call the $\alpha , \beta ,$ for the two gates.
+(see one in appendix python notebook section Active membrane). We obtain the result in Fig 2.4.
+\begin{figure}
+\includegraphics[width=7cm]{activemembranepot.png}\hfill
+\includegraphics[width=7cm]{gatefunctions.png}\hfill
+\includegraphics[width=7cm]{ionicurrent.png}
+\caption{Active membrane potential and gate function associated}\label{fig1}
+\end{figure}
+The stimulus has a value of $I_{stim}=0.03A$ and a duration time of $t_{stim}=1ms$.\\
+ In the beginning of the simulation the membrane is at the rest state. The ionic currents are near to 0, there is just small ionic flux across the membrane. \\
+ The next phase is the activation, there is a rapid change of $Vm$, this is the depolarization (before t=5ms). There is a negative sodium current which is a release of sodium into the cell, because the m gate is open, a lot more than the n gate (the time scale for the gate function graphic is different from the others). This effect is counterbalanced by the repolarization.  \\
+ There is a positive increase of the potassium current, an amount of potassium flows out of the cell The membrane potential decreases rapidly because of the positive charge ($K^{+}$) flowing out. \\
+ Because the n gate doesn't go back directly to rest, the membrane potential value decreases more to the rest potential. This is called hyperpolarization. After that, there is a small depolarization until it goes back to rest. \\
+ All of these four states are called Action Potential.
+ Note that in this model the initial gate function values are all zero, in fact it is not true, their ionic currents are at rest too. It is not so important because the Nerst potential of each ion is near to the resting membrane potential so the ionic current is not high.
+   
+
+\chapter{Population model and diffusion}
+\section{ Population Model}
+The diffusion of calcium in the cell depends on a diffusion term and a chemical reaction's one chemical reaction term that can be seen at first sight as a growth population model.  
+\subsection{Continuous growth model}
+Continuous growth models with a single species involved must have the structure of the conservation equation for a population:
+$$ \frac{dN}{dt}=births-deaths+migration $$
+The simplest model doesn't have a migration term, and births and deaths terms depend of N which is the population number. This is the Malthus model:
+$$ \frac{dN}{dt}=bN-dN  => N(t)=N_{0}e^{-(b-d)t}$$
+Where b and d are positive constants (birth and death rate, respectively), and $N(0)=N_{0}$ initial condition. 
+This is clearly not a realist model, if $b>d$ you have exponentially growth of the population and if $d>b$ the population dies out.\\
+Another model is the Verhulst model which has a limit process: \\
+$$ \frac{dN}{dt}=rN(1-\frac{N}{k}) $$
+with $rN(1-\frac{N}{k})$ is the rate of birth and k the carrying capacity of the environment ($k \textgreater 0$). The analytical solution is: \\
+$$ N(t)=\frac{N_{0}Ke^{rt}}{[K+N_{0}(e^{rt}-1)}$$
+For a long time it will tend to $k$. $\frac{1}{r}$ is a representative time-scale of response of the model.
+\subsection{Reaction diffusion equation}
+For a surface (S) enclosing a volume (V), the conservation equation says that the rate of change of the amount of material in V is equal to the rate of flow of material across S into V plus the material created in V:
+$$\frac{\partial}{\partial t} \int_{V} C(\vec{x},t)dV=- \int \vec{J}.\vec{dS} + \int_{V}f dV
+$$
+Where $\vec{J}$ is the flux transport, and f the source of material($C(\vec{x},t)$).
+If $C(\vec{x},t)$ is continuous we obtain :
+$$
+\int_{V}[\frac{\partial C }{\partial t}+ \nabla  . \vec{J}-f(C(\vec{x},t)]dV=0$$
+Here the volume doesn't have importance, just the integrand must be zero. We consider that the flux transport is $\vec{J}=-D \nabla C $ where D is the diffusion coefficient and C is the population concentration. So the form of our Diffusion equation will be:
+$$
+\frac{\partial C}{\partial t}= f + D( \nabla ^{2}C) 
+$$
+This equation is valid just for a coefficient of diffusion (D) constant. In our case we will put a chemical reaction term instead of function f. However it is the structure of the diffusion of the calcium into our cell. The Nersnt-Planck equation for diffusion will not be used because into the cell the variance of potential is neglected compared to the variance of concentration. What we can't do across a membrane. 
+If we consider that our material source function is the Verhulst model of birth and death, we have the Fisher-Kolmogoroff equation:
+$$
+\frac{\partial C(x,y,t)}{\partial t}=rC(x,y,t)(1-\frac{C(x,y,t)}{k})+D( \nabla ^{2}C(x,y,t))
+$$
+where k,r and D are constants. \cite{Murray2001} 
+\section{Finite-difference method (FD)}
+The FD is a numerical method used to solve differential equations systems. The method consists on splitting the continuous domain of the differential equations to a discrete finite domain where the resolution is an approximation from the Taylor's series expansion. First we need to discretize our space, then to define a finite difference approximation for operator used in diffusion and be careful about the boundary conditions, and finally apply it to our cases.
+\subsection{Discretization}
+To go from a continuous domain to the discrete one, we see our space as a matrix where the space is splitted into the number of points necessary to have a good approximation. From $r(x,y,t)$ we obtain $r(x_{i},y_{j},t_{l})$ Where i, j and l are integer such that $0\leq i\leq mx,\; 0\leq j\leq my, \; 0 \leq l \leq mt$ with $mx$, $my$ and $mt$ the number of point for the discretization that will give us $mt$ matrix of dimension $mx$ times $my$. Here the simulation will just be in two dimensions plus the time. The distance between two points in our discretized space is $\delta x=\frac{Lx}{mx}$ with Lx is the length of the abscissa of the studied space. Same thing for ordinate  $\delta y=\frac{Ly}{my}$ and the time step  $\delta t=\frac{Lt}{mt}$. A coordinate $r(x_{i},y_{j},t_{l})$ in the grid will be the coordinate $r(i \delta x, \; j \delta y, \; l\delta t)$ in the continuous space.
+\subsection{Partial difference equation}
+With the discontinuous space we had created, we can have approximate expressions for the classical derivative. First we can introduce some notation:\\
+$$
+\begin{array}{l c}  
+C_{i,j}^{l}=C(x,y,t) \,; & C_{i,j}^{l+1}=C(x,y,t+ \delta t) \\
+C_{i+1,j}^{l}=C(x+\delta x,y,t)\,;  & C_{i,j+1}^{l}=C(x,y+\delta y,t) \\
+C_{i-1,j}^{l}=C(x-\delta x,y,t)\,;  & C_{i,j-1}^{l}=C(x,y-\delta y,t) \\
+\end{array}
+$$
+With the Taylor's series we can obtain the following expression for derivatives.\cite{Lewyt1967} \cite{Crank1975} \\
+-Time derivative :
+$$
+C_{i,j}^{l+1}=C_{i,j}^{l}+ \delta t \frac{\partial C_{i,j}^{l}}{\partial t}+O(\delta t ^{2}) \;
+so\, we\, have \;=> \frac{\partial C_{i,j}^{l}}{\partial t}= \frac{C_{i,j}^{l+1}-C_{i,j}^{l}}{\delta t} -\frac{O(\delta t ^{2})}{\delta t}
+$$
+The development is only at the first order, and the leading term can be neglected. \\
+-Space derivatives : 
+$$
+C_{i+1,j}^{l}= C_{i,j}^{l}+ \delta x \frac{\partial C_{i,j}^{l}}{\partial x}+ \frac{1}{2 }(\delta x)^{2} \frac{\partial ^{2} C_{i,j}^{l}}{\partial x ^{2}}+ O (\partial x ^{3}) \\
+$$
+$$
+C_{i-1,j}^{l}= C_{i,j}^{l}- \delta x \frac{ \partial C_{i,j}^{l}}{\partial x}+ \frac{1}{2}(\delta x)^{2} \frac{\partial ^{2} C_{i,j}^{l}}{\partial x ^{2}}+ O (\partial x ^{3}) 
+$$
+If we sum these two equation we obtain:
+$$
+\frac{\partial C_{i,j}^{l}}{\partial x}=\frac{C_{i+1,j}^{l}-C_{i-1,j}^{l}}{2\delta x}-(O\delta x ^{3}) \\
+$$
+$$
+\frac{\partial ^{2} C_{i,j}^{l}}{\partial x ^{2}}=\frac{C_{i+1,j}^{l}-C_{i-1,j}^{l}-2 C_{i,j}^{l}}{(\delta x)^{2}}-\frac{O(\partial x^{3}}{(\partial x) ^{2}}
+$$
+Note that every equation here works the same for the y derivative. The leading term can also be neglected.
+ 
+\paragraph{Boundaries conditions}
+The important technical point is that the finite difference method uses the two neighbouring points ($C_{i+1,j}$ and $C_{i-1,j}$) to calculate the middle point ($C_{i,j}$). A problem appear at the borders points. So we have to add in our grid an imaginary border to compute the real border points of the grid. In the codes of this project the grid representing the studied system is two steps smaller than the real grid. In fact the index points have the following form: $1\leq i\leq mx-1,\; 1\leq j\leq my-1$. \\
+The Neumann boundary condition is really useful too, it means that the flux in the borders is zero.
+$$
+\begin{array}{l c r}
+\frac{\partial C _{x= 0 }}{\partial x}= \frac{\partial C _{x= Lx }}{\partial x} =0 \; \Rightarrow & \frac{C_{i+1}-C_{i}}{2\delta x}=0 \; \Rightarrow & C_{i+1}=C_{i-1}
+\end{array}
+$$
+The token solution for the grid is useful here too, we use the imaginary boundary to compute the Neumann condition. 
+\subsection{Application of FD method to diffusion equation}
+See one in appendix "jupyter notebook" section Diffusion. \\
+To understand how this method works we will begin with the  following diffusion equation, which is the simplest:
+$$
+\frac{\partial C}{\partial t}=D \frac{\partial^{2}C}{\partial x^{2}}
+$$
+One time discretized, and the error term neglected we obtain:
+$$
+\frac{C_{i}^{l+1}-C_{i}^{l}}{\delta t}=D[ \frac{C_{i+1}^{l}-C_{i-1}^{l}-2 C_{i}^{l}}{(\delta x)^{2}}]
+$$
+To compute numerically we prefer this form:
+$$
+C_{i}^{l+1}=C_{i}^{l} +  D(\frac{\delta t}{(\delta x)^{2}})[ C_{i+1}^{l}-C_{i-1}^{l}-2 C_{i}^{l}]
+$$
+The method is the same when generalizing into two or three space dimensions. We just have about be careful to a stability condition which is: $(\frac{\delta t}{(\delta x)^{2}}) \leq \frac{1}{2}$. That means that the time step ($\delta t $) must be very small. \cite{Crank1975} The size of our domain ($Lx$, $Ly$) and the time ($Lt$) will only depend on the physical term of the equation which is the diffusion coefficient, if $D \sim \frac{cm^{2}}{s}$ then $Lx, \; Ly$ are centimetres and $Lt$ is second. \\
+Because the space is two-dimensional, the concentration of population or what we want to represent by C, is represented by another dimension space or colour, the choice here is the colour one. The colour scale must be well understated. \\
+The simulation's physicals parameters are: Lx= 1.0 (the x domain size), Ly= 1.0 (the y domain size), Time= 100 (the integration time) and D=0.01 which is the coefficient of diffusion.\\ 
+The simulation's numerical parameters are: NT = 10000 number of time steps, NX = 20 the number of grid points in x, NY= 20 the number of grid points in y, dt = Time/NT the time step. The initial condition is C[5,5]= 100, which means that the initial matrix representing our grid has the coordinate point $C_{5, \, 5}^{0}=100 $, that the initial population.
+
+\newpage
+\begin{figure}
+\includegraphics[width=7cm]{adaptiveinit.png}\hfill
+\includegraphics[width=7cm]{nonadaptiveinit.png}
+\caption{representation of diffusion simulation at a $\delta t$ after the initial time}\label{fig1}
+\end{figure} 
+
+ In the adaptive colour's scale image of Fig 3.2 we can think that the diffusion is not terminated, but the simulation stars in just one population's point equal to 100 and the scale of this image is $10^{-5}$ magnitude order. This is a homogeneous distribution population state, as we can see with the other colour's scale. 
+\begin{figure}
+\includegraphics[width=7cm]{adaptivecolour.png}\hfill
+\includegraphics[width=7cm]{nonadaptivecolour.png}
+\caption{representation of diffusion simulation after a long time}\label{fig1}
+\end{figure}
+\paragraph{Fisher-Kolmogoroff equation}
+Now we apply this method to the Fisher-Kolmogoroff equation with the Neuman border condition. In fact we just have to change the diffusion equation in adding the birth and death term.
+When we compute this equation, we have Nt matrix, what give us an animation, in a paper report it's not possible to put it.
+
+\chapter{Simulation of calcium diffusion into a muscle cell}
+With all techniques explained overhead it's possible to simulate the diffusion of calcium in a skeletal muscle cell. To do it we use the Cannell and Allen model \cite{Cannell1984}, the version of Holly which is a bit different with more mathematical model \cite{Holly1989} and some ideas of Jiang article \cite{Jiang1999}. For example in the Holly article they don't talk precisely about initials or boundary conditions, but it is done in the Jiang article. 
+
+\begin{minipage}{0.5\linewidth}
+\includegraphics[width=9cm]{hollymodel.png} 
+\captionof{figure}{Digram of the Holly's Model}
+\label{fig1}
+\end{minipage}\hfill
+\begin{minipage}{0.47\linewidth}
+The calcium (Ca) is present in TC, either as free ions, or bounded to calsequestrin (CS). Activating the fibre, calcium is released (R)
+into the myofibrilar space. There, calcium diffuses and binds to the T-sites (T), the P-sites (P) and
+the Ca-ATPase (E). The enzyme Ca-ATPase provides calcium reuptake to the SR. Calcium diffuses
+through the longitudinal sarcoplasmic reticulum. There is also a constant
+leak of calcium from the SR (L). \cite{Holly1989} 
+\end{minipage} 
+ This model is for a frog muscle cell, but we will take this structure for our first simulation. The structure of a muscle fibre is a cylinder, with an angular symmetry. So we just have to compute a two dimensional space a big picture in our heads of the three dimensional diffusion. The axial symmetry is around the centre of the sarcomere. \\
+Here the simulation of the myofirilar space is an Euclidean space (easier for the FD method). The diffusion of the calcium into the myofibrilar space is the only one we discuss here. 
+\section*{Diffusion of calcium ions in myofibrilar space}
+As we can see in the part 1.1, the calcium not only diffuses into the myofibrilar space, but there are interactions with chemicals species involved too. We just considered the troponin (T-sites) and parvalbumin (P-sites) as in the figure 4.1.\\
+ The reactions are chemical, with kinetic rate value of molecules bounding ($K_{on} \, , \; K_{off}$) that are given by the Callen and Allen experiments \cite{Cannell1984}. 
+
+$$
+\begin{array}{l c}
+\ce{Ca}  + \ce{P <=>[Kp_{on}][Kp_{off}]} \ce{PCa} \, ,& \, \ce{Ca}  + \ce{T <=>[Kt_{on}][Kt_{off}]} \ce{TCa}
+\end{array} 
+$$
+This chemical reactions can be translated into a differential equation because of the kinetics terms.
+Which give:
+$$
+\frac{\partial Ca}{\partial t} = Kp_{off}[PCa]+Kt_{off}[TCa]-Kp_{on}[P][Ca]-Kt_{on}[T][Ca]
+$$
+With $Kp_{on}\, , \; Kp_{off}\, , \; Kt_{on} \, , \; Kt_{off} $ respectively the kinetic rate of creation PCa, Ca and P, TCa, T and Ca. 
+This will be the birth and death rate term of our diffusion expression (Fisher-Kolmogoroff equation, Part 3.1.2). 
+ So the entire diffusion term into the myofibriliar space is:
+$$
+\frac{\partial Ca}{\partial t} = Kp_{off}[PCa]+Kt_{off}[TCa]-Kp_{on}[P][Ca]-Kt_{on}[T][Ca]+D(\bigtriangledown ^{2}[Ca])
+$$
+It's necessary to discretize it to use the finite difference method. We also have to create a matrix for every chemical species that will interact one with another. 
+$$
+\frac {[Ca]_{i,j}^{l+1} - [Ca]_{i,j}^{l}}{\delta t}= K_{Toff}[TCa]_{i,j}^{l}-K_{Ton}[Ca]_{i,j}^{l}[TCa]_{i,j}^{l}+K_{Poff}[PCa]_{i,j}^{l}-K_{Pon}[Ca]_{i,j}^{l}[PCa]_{i,j}^{l} \\
+$$
+$$
+ + D(\frac {([Ca]_{i-1,j}^{l}-2[Ca]_{i,j}^{l}+[Ca]_{i+1,j}^{l})}{(\delta x)^{2}}+ \frac {([Ca]_{i,j-1}^{l}-2[Ca]_{i,j}^{l}+[Ca]_{i,j+1}^{l})}{(\delta y)^{2}}) 
+$$
+The others species matrix has to update too.
+$$
+\begin{array}{l c}
+\frac {[TCa]_{i,j}^{l+1} - [TCa]_{i,j}^{l}}{\delta t}= K_{Ton}[Ca]_{i,j}^{l}[T]_{i,j}^{l}-K_{Toff}[TCa]_{i,j}^{l}, &\frac {[T]_{i,j}^{l+1} - [T]_{i,j}^{l}}{\delta t}= K_{Toff}[TCa]_{i,j}^{l}- K_{Ton}[Ca]_{i,j}^{l}[T]_{i,j}^{l} \\
+\\
+\frac {[P]_{i,j}^{l+1} - [P]_{i,j}^{l}}{\delta t}= K_{Poff}[TCa]_{i,j}^{l} - K_{Pon}[Ca]_{i,j}^{l}[P]_{i,j}^{l}, &  \frac {[PCa]_{i,j}^{l+1} - [PCa]_{i,j}^{l}}{\delta t}= K_{Pon}[Ca]_{i,j}^{l}[P]_{i,j}^{l}-K_{Poff}[TCa]_{i,j}^{l}
+\end{array}
+$$
+\paragraph{Borders and initial conditions}
+We consider that the Calcium can't cross the membrane, for that the Neumman border condition is used and that the neighbours membrane points have the resting Calcium concentration. \cite{Jiang1999} 
+Holly's model \cite{Holly1989} give the following data:\\
+$$\begin{array}{l c r}
+\ [T]_{total}=[T]+[TCa]= 240 \mu mol. l^{-1}, & [P]_{total}=[P]+[PCa]=1000 \mu mol. l^{-1}, & [Ca]_{MSrest}= 0.06 \mu mol. l^{-1} \\
+\end{array} \\
+$$
+$$
+\ K_{Ton}=0,12\mu mol. ms^{-1}, \; K_{Toff}=0,12ms^{-1}, \; K_{Pon}=0,25 \mu mol. ms^{-1}, \;  K_{Poff}=0,001 ms^{-1} 
+$$
+We consider that the initial cell's concentrations are in an equilibrium state, what means: $\frac{d [T]}{dt}=\frac{d [TCa]}{dt}=\frac{d [P]}{dt}=\frac{d [PCa]}{dt}=0$. With this hypothesis we can calculate all initials concentrations of our system:
+$$
+\begin{array}{l r} 
+\frac{d [TCa]_{0}}{dt}=K_{Ton}[Ca]_{0}[TCa]_{0}-K_{Toff}[TCa]_{0}=0 \; => & [T]_{0}=\frac{K_{Toff}[TCa]_{0}}{K_{Ton}[Ca]_{0}} \\ 
+\\
+\ [T]_{total}= [T]_{0}+ [TCa]_{0}= [TCa]_{0}(1+ \frac{K_{Toff}}{K_{Ton} [Ca]_{0}}) \; => & [TCa]_{0}= \frac{K_{Ton} [Ca]_{0} [T]_{total}}{K_{Ton} [Ca]_{0}+K_{Toff}} \\
+\end{array} 
+$$
+
+We compute all initial concentrations and obtain:
+$$
+\ [T]_{0}=222.2 \mu mol, \; [TCa]_{0}=17.8 \mu mol, \; [P]_{0}=995.0 \mu mol, \; [PCa]=5.0 \mu mol
+$$
+In this simulation we consider that the T-sites and the p-sites are homogeneously distributed, so the initials matrix has the same value in every point.  
+
+We also know that the myofibriliar's space takes up to 90 $\%$ of the sarcomere which has a radius $ Ly=0,5  \mu m$ and a length $ Lx=1,1  \mu m$. Because the TC and SR are at the outer localisation of the radius, the dimensions of MS are $ Ly=0,45  \mu m$ and $ Lx=1,1  \mu m$. \\
+The parameters choice here are the same number of point to discretize the two spaces dimensions ($Nx=Ny=20$) it's easier to have  square matrix, with this split it's possible to determine the amount of chemicals in every point of the matrix in dividing the upper conversion by 4000 the number of points by matrix. The time simulation is $6ms$  split in $NT=100000$ time steps. The step is very small, so the computing of the code is long, but if there is a smaller time step we will have computing problem. This simulation begins with a calcium point with a value of $Ca_{15, \, 5}^{0}=0.2 \mu m $. \\ 
+\begin{figure}
+\begin{tabular}{l c r}
+   \includegraphics[width=5.5cm]{Cainit.png} &
+   \includegraphics[width=5.5cm]{Cahomo.png} &
+   \includegraphics[width=5.5cm]{Phomo.png}\\
+   \includegraphics[width=5.5cm]{Pshomo.png}&
+   \includegraphics[width=5.5cm]{Thomo.png} &
+   \includegraphics[width=5.5cm]{Tcahomo.png}\\
+\end{tabular}
+\caption{Representation of calcium diffusion into the myofibriliar space, and athors chemicals involved}\label{fig1}
+\end{figure}
+The last image of the Fig 4.2(Ca(t=6)) of the simulation shows us a homogeneous distribution of Calcium because of the colour scale. The concentration of the P and T sites has changed too, but not in the border points because the calcium concentration in the border points doesn't change. With this simulation we can have an idea of the time needed for the calcium to be homogeneously distributed in the myofibrilar space, 6 ms is enough. The concentration of other species doesn't change significantly because the initials concentrations are high compared with the calcium initials concentration.   \\
+
+\section*{Conclusion}\label{concletref}
+
+I started the internship without any knowledge in Biophysics; the first two weeks were about understanding the cell structure and the electrophysiology laws by reading articles and books. After that I began programming, first a data base and some basic programs. With series of articles of Hodgkin and Huxley and books of electrophysiology \cite{Hodgkin1952} \cite{Tranquillo2009} \cite{Johnston1994} I simulated the electrical behaviour of a membrane. To do so, I had to understand the complex model of Hodgkin and Huxley, and to resolve differential equations involved in its models. I had to use a numerical method (the one in the report is Euler's method). The second part was the diffusion of the calcium, for that I had to know some models of diffusion. The finite difference was used to simulate different diffusion models. The Holly model of the calcium diffusion  into the myofibriliar space of a frog muscle cell. Programming can be really useful to understand better a system, but we have to be careful of all the data we use and how we represent it. A big part of the work is to create the right code, without it, nothing can be simulated, but the simulation is useless if the data we put into it is not correctly presented. \\
+All the work I have done during the internship won't be used by the biophysics group exactly as it is, but the code structures can be helpful for different projects. 
+
+\paragraph*{ } This Internship has taught me a lot. I was in contact with a team of researchers, and I know what a daily researcher's life looks like. It was the first time I spent a long time studying a specific subject, understanding the articles and following the scientific history of my subject. I discovered a lot of computing and programming tools, which will be really useful for the rest of my studies, and who knows, my future life as a researcher. Working in a biologic experiment was something new for me. \\
+Also being in contact with another culture is also a very eye-opening experience. The exercise to speak to people in Spanish, read articles in English, and still thinking in French was highly challenging. 
+
+\nopagebreak
+\bibliographystyle{plain}
+\bibliography{stagemedellin1}
+
+
+\appendix
+\chapter{Python notebook}
+All of the programming I have done are also on Github, at: 
+https://github.com/damienRONCIN\\
+\begin{center}
+\includegraphics[width=15cm]{electrophysiologie.png} 
+\end{center} 
+\begin{center}
+\includegraphics[width=20cm]{activecode.png} 
+\end{center} 
+\begin{center}
+\includegraphics[width=20cm]{diff.png} 
+\end{center}
+\begin{center}
+\includegraphics[width=21cm]{diffca.png} 
+\end{center}
+\chapter{Résumé/Summary}
+%\begin{otherlanguage}{french}
+\paragraph{Résumé}
+Le projet de mon stage concerne la biophysique et plus précisément l’électrophysiologie. Le but étant de modéliser la diffusion des ions calcium au sein d'une cellule musculaire de mammifère (les expérimentations n'ayant pas pu se faire la modélisation n'est pas spécifique au rat). La première partie de du projet consiste à se familiariser avec la structure précise et les interactions présentes dans ce système. Une cellule musculaire se compose de reversoirs d'ion et de partie contractile chacune séparée par des membranes. \\
+Les membranes sont composées de partie perméable et de canaux ioniques, la modélisation peut se faire par une analogie avec un circuit RC. Seulement le comportement de la résistance est complexe, chaque espèce chimique a son propre canal ionique qui est une résistance de notre modèle. Le comportement de chaque résistance dépend du potentiel membranaire non linéairement, l'équation n'est pas résolvable analytiquement il faut donc le faire numériquement. \\
+La seconde partie du projet concerne la diffusion, ainsi dans un premier temps il convient d'introduire quelques systèmes comprenant de la diffusion, tel que quelques uns comprenant un terme de variation de population (ici  de concentration). Pour en suite appliquer ceci a des cellules. Étant donné que les cellules sont des systèmes continus, il s'agit de discrétiser ces espaces pour les modéliser par la suite à l'aide de la méthode des  différences finîes. Il faut porter un intérêt particulier aux valeurs utilisées pour les simulations, et la représentations de ces dernières car certaines peuvent être trompeuses. \\
+Tout le travail que j'ai accomplis le long de ce stage est pour une grande partie de l'informatique, qui ne sera pas utilisé par laboratoire de recherche directement mais qui peut s’avérer utile pour différents projets. 
+%\end{otherlanguage}   
+\paragraph{Summary}
+The project of my internship is about biophysics and more specifically, electrophysiology. For the purposes of modelling the ion calcium diffusion into mammalian muscular cell (the experiment couldn't be done so the model is not specifically about the rat). The first part of the project consists on being more familiar with the precise structure and interaction involved in our system. A muscular cell is made of an ion reservoir and contracted parts that are separated by membranes. \\
+Membranes are composed by a permeable part and ionic channels. The modelling can be done by an analogy with a RC circuit. But the resistance behaviour is complex, every  chemical species has their own ionic channel which is a resistance in our analogy. The behaviour of each resistance is not linearly dependant on the total membrane potential potential not linearly, this equation is not resolvable analytically so we solvable it numerically. \\
+The second part of the project is about diffusion. In the beginning we introduced some systems with diffusion and variation of population term (here we talked about concentration). For the next phase we applied this to a cell system. Because cells are continuous systems we had to discretize the spaces for the model with the finite difference method. It's crucial to be careful about the values used for the simulations and their representations because this can be misleading.\\
+The biggest part of the work I have done in this internship is for informatics, which will not be used directly by the laboratory but it can be useful for others projects.   
 
 \end{document}          
